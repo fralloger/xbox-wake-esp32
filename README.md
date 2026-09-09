@@ -21,9 +21,26 @@ ESP32-S3 слушает эфир по Bluetooth LE и замечает, когд
 
 ## Прошивка
 
-### Вариант 1 — готовый бинарник
+### Вариант 1 — через браузер, esptool-js (ничего ставить не нужно)
 
-В `bin/esp32s3_ch340/` лежит собранная прошивка. Нужен Python с пакетом `esptool`:
+Официальный веб-флешер Espressif работает прямо в Chrome или Edge через Web Serial, без установки Python или чего-либо ещё:
+
+1. Открой [espressif.github.io/esptool-js](https://espressif.github.io/esptool-js/) в Chrome или Edge.
+2. Подключи плату по USB, нажми **Connect** и выбери свой COM-порт.
+3. Добавь по очереди 4 файла из `bin/esp32s3_ch340/` с адресами:
+
+   | Адрес    | Файл              |
+   |----------|-------------------|
+   | `0x0`    | `bootloader.bin`  |
+   | `0x8000` | `partitions.bin`  |
+   | `0xe000` | `boot_app0.bin`   |
+   | `0x10000`| `firmware.bin`    |
+
+4. Нажми **Program** и жди завершения записи.
+
+### Вариант 2 — esptool (Python)
+
+Нужен Python с пакетом `esptool`:
 
 ```powershell
 python -m pip install esptool
@@ -37,7 +54,7 @@ python -m pip install esptool
 
 (укажи свой COM-порт).
 
-### Вариант 2 — собрать из исходников
+### Вариант 3 — собрать из исходников
 
 Исходники — в `firmware/XboxWake/`, конфигурация — в `platformio.ini` (окружение `esp32s3_ch340`):
 
