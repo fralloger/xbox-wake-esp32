@@ -21,7 +21,7 @@ ESP32-S3 слушает эфир по Bluetooth LE и замечает, когд
 
 ## Прошивка
 
-### Вариант 1 — через браузер, esptool-js (ничего ставить не нужно)
+### Вариант 1 - через браузер
 
 Официальный веб-флешер Espressif работает прямо в Chrome или Edge через Web Serial, без установки Python или чего-либо ещё:
 
@@ -38,7 +38,7 @@ ESP32-S3 слушает эфир по Bluetooth LE и замечает, когд
 
 4. Нажми **Program** и жди завершения записи.
 
-### Вариант 2 — esptool (Python)
+### Вариант 2 - esptool (Python)
 
 Нужен Python с пакетом `esptool`:
 
@@ -53,17 +53,6 @@ python -m pip install esptool
 ```
 
 (укажи свой COM-порт).
-
-### Вариант 3 — собрать из исходников
-
-Исходники — в `firmware/XboxWake/`, конфигурация — в `platformio.ini` (окружение `esp32s3_ch340`):
-
-```bash
-pio run -e esp32s3_ch340
-pio run -e esp32s3_ch340 -t upload --upload-port COM6
-```
-
-Если у тебя не CH340-плата, а с родным USB (например, Seeed XIAO ESP32S3) - используй окружение `xiao_esp32s3` и не забудь, что `Serial` там переключается на USB CDC.
 
 ## Первая настройка
 
