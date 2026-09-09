@@ -1,0 +1,32 @@
+XboxWake 0.3.0 — build 2026-09-09
+Environment: esp32s3_ch340 (ESP32-S3 + CH340 USB-UART bridge)
+Verified hardware: ESP32-S3 rev 0.2, CH340 on COM6, 16MB quad flash, 8MB PSRAM present (not used)
+Flash mode DIO, 80MHz; Serial on UART0 (USB CDC on boot disabled); Huge APP partition scheme
+
+Toolchain actually used for this build: arduino-cli, board esp32:esp32:XIAO_ESP32S3,
+option CDCOnBoot=cdc, ESP32 Arduino core 3.3.11, NimBLE-Arduino 2.5.1, ArduinoJson 6.21.5.
+(The PlatformIO env in platformio.ini pins an older, self-consistent combination —
+espressif32 6.12.0 / core ~2.0.17 / NimBLE 2.3.7 — which was never flashed in this session
+because PlatformIO's package CDN was unreachable from this network. Either combination is
+internally consistent; do not mix an old NimBLE with a new core or vice versa — an ESP32
+core >=3.3.x needs NimBLE-Arduino >=2.3.8, otherwise BLE init crashes on boot.)
+
+Compile: SUCCESS; RAM 62544 / 327680 bytes; application 1203872 / 3342336 bytes
+
+On real hardware, verified end-to-end:
+- BLE detection of the registered Xbox 1914 controller (MAC 14:CB:65:8E:09:FB)
+- Wake-on-LAN broadcast delivery, captured byte-for-byte correct on the target NIC
+- Full wake from a real S5 shutdown (Windows, Intel I219-V) via the broadcast mode
+Portable host tests: 199 passed (tests/test_wake_logic.cpp).
+
+Binary offsets: bootloader 0x0000, partitions 0x8000, boot_app0 0xe000, firmware 0x10000
+
+SHA256:
+f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0  bin/esp32s3_ch340/boot_app0.bin  8192 bytes
+73bd425e380c709f6abd83aa987cb51c042a9aa8de44a37a9edb22d53bca08dd  bin/esp32s3_ch340/bootloader.bin  19968 bytes
+ac9353c937a4cb57575f35f5e09cfba9c5a875f881210f4fb8b6082498c982ab  bin/esp32s3_ch340/firmware.bin  1203872 bytes
+1d9cca96de0fe07ad7fc0648b9878ddecd9ce565e38b589ad20fea698ed4c80c  bin/esp32s3_ch340/partitions.bin  3072 bytes
+15e15d7d2ab3d877b0eee850e8c5eda8df65dda4bb6c47bef756f920a546beaf  firmware/XboxWake/arp_resolver.h
+3b2fabf90b5ae8f332676fc69fb8d5120a802b6aafb52307ec3f18bfa5695709  firmware/XboxWake/wake_logic.h
+0fdeafd2ada697ee430c77a152a4d5bc9a1e019cc62029502287dd9273cdb3c7  firmware/XboxWake/web_ui.h
+89c476d019e31844599856f6d797ad2248b26a4b0c3a151b146c24a4a7c183c3  firmware/XboxWake/XboxWake.ino
